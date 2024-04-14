@@ -1,0 +1,36 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="edit-box-container">
+    <div class="edit-box">
+        <div class="Title">
+            <p>Edit Profile</p>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <strong>{{ field|title }}</strong>: {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" class="update-form">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_city">City:</label>
+                <input type="text" id="id_city" name="city" value="{{ request.user.profile.city }}">
+            </div>
+            <div class="form-group">
+                <label for="id_date_of_birth">Date of Birth:</label>
+                <input type="text" id="id_date_of_birth" name="date_of_birth" value="{{ request.user.profile.date_of_birth|date:'Y-m-d' }}">
+            </div>
+            <div class="form-group">
+                <label for="id_grade">Grade:</label>
+                <input type="text" id="id_grade" name="grade" value="{{ request.user.profile.grade }}">
+            </div>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,56 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="register-box-container">
+    <div class="register-box">
+        <div class="Title">
+            <p>Create a new account</p>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <strong>{{ field|title }}</strong>: {{ error }}
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" class="register-form">
+            {% csrf_token %}
+            <div class="formgroup">
+                <label for="id_username">Username:</label>
+                {{ form.username }}
+                <p class="hint">• 150 characters or fewer.</p>
+                <p class="hint">• Letters, digits and @/./+/-/_ only.</p><br>
+            </div>
+            <div class="formgroup">
+                <label for="id_password1">Password:</label>
+                {{ form.password1 }}
+                <p class="hint">• Your password can’t be too similar to your other personal information.</p>
+                <p class="hint">• Your password must contain at least 8 characters.</p>
+                <p class="hint">• Your password can’t be a commonly used password.</p>
+                <p class="hint">• Your password can’t be entirely numeric.</p><br>
+            </div>
+            <div class="formgroup">
+                <label for="id_password2">Password confirmation:</label>
+                {{ form.password2 }}
+                <p class="hint">• Enter the same password as before, for verification.</p><br>
+            </div>
+            <div class="form-group">
+                <label for="id_city">City:</label>
+                {{ form.city }}<br>
+            </div>
+            <div class="form-group">
+                <label for="id_date_of_birth">Date of birth:</label>
+                {{ form.date_of_birth }}
+                <p class="hint">• Format: YYYY-MM-DD</p>
+            </div>
+            <div class="form-group">
+                <label for="id_grade">Grade:</label>
+                {{ form.grade }}
+            </div>
+            <input type="submit" value="Register">
+        </form>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,19 @@
+{% load static %}
+<div class="menu-bar">
+    <img src="{% static "base/img/doo.png" %}" alt="logo">
+    {% if user.is_authenticated %}
+        <div class="menu-item">
+            <a href="{% url 'index' %}">Home</a>
+            <a href="{% url 'profile' %}">Profile</a>
+            {% if user.is_staff %}
+                <a href="{% url 'index' %}">Dodos</a>
+            {% endif %}
+            <a href="{% url 'logoutview' %}">Logout</a>
+        </div>
+    {% else %}
+        <div class="menu-item">
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        </div>
+    {% endif %}
+</div>

@@ -1,0 +1,22 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="account-box">
+    <div class="Title">
+        <p>Account Information</p>
+    </div>
+    <div class="user-info">
+        <p>Username: {{ request.user.username }}</p>
+        <p>Location: {{ request.user.profile.city }}</p>
+        <p>Date of Birth: {{ request.user.profile.date_of_birth }}</p>
+        <p>Grade: {{ request.user.profile.grade }}</p>
+    </div>
+    <div class="edit-button">
+        <button onclick="window.location.href='{% url 'edit_profile' %}'">Edit Profile</button>
+    </div>
+    <div class="edit-button">
+        <button onclick="window.location.href='{% url 'change_password' %}'">Update password</button>
+    </div>
+    
+</div>
+{% endblock content %}
