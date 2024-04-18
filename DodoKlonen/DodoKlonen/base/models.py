@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import datetime
 
 # Create your models here.
 
@@ -37,3 +38,23 @@ class Update(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+class UserDodoUpdate(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    dodo = models.ForeignKey(Dodo, on_delete=models.CASCADE)
+    last_updated = models.DateTimeField(default=datetime.now)
+
+    @staticmethod
+    def can_add_update(user, dodo):
+        last_update = UserDodoUpdate.objects.filter(user=user, dodo=dodo).first()
+        if last_update:
+            time_difference = datetime.now() - last_update.last_updated
+            if time_difference.total_seconds() < 86400:  
+                return False
+        return True
+    
+
+class DodoApproval(models.Model):
+    dodo = models.OneToOneField(Dodo, on_delete=models.CASCADE)
+    pending_dead_approval = models.BooleanField(default=False)

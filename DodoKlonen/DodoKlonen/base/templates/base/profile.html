@@ -1,10 +1,16 @@
 {% extends "base/base.html" %}
 
 {% block content %}
+{% load static %}
 <div class="account-box">
     <div class="Title">
         <p>Account Information</p>
     </div>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
     <div class="user-info">
         <p>Username: {{ request.user.username }}</p>
         <p>Location: {{ request.user.profile.city }}</p>
@@ -17,6 +23,43 @@
     <div class="edit-button">
         <button onclick="window.location.href='{% url 'change_password' %}'">Update password</button>
     </div>
+
+    <div class="profile-updates">
+        <p>Updates of {{ request.user.username }}</p>
+    </div>
     
+    <div class="profile-updates-container">
+        {% for update in user_updates %}
+            <div class="profile-updates-box">
+                <div class="dodo-date">
+                    <div class="dodo-img">
+                        <img src="{% static "base/img/d.png" %}" alt="logo">
+                    </div>
+                    <div class="date">
+                        <p>{{ update.date|date:"H:i D d M Y " }}</p>
+                    </div>
+                </div>
+                <div class="dodo">
+                    <p>{{ update.dodo }}</p>
+                </div>
+                <div class="description">
+                    <p>{{ update.description }}</p>
+                </div>
+                <div class="action-buttons">
+                    <div class="edit-update">
+                        <button onclick="window.location.href='{% url 'edit_update' update.id %}'">Edit</button>
+                    </div>
+                    <div class="delete-update">
+                        <form action="{% url 'delete_update' update.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </div>                    
+                </div>
+            </div>
+        {% empty %}
+        <p>No updates found.</p>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}

@@ -1,0 +1,34 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="edit-box-container">
+    <div class="edit-box">
+        <div class="Title">
+            <p>Edit Update</p>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <strong>{{ field|title }}</strong>: {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="post" class="edit-update-form">
+            {% csrf_token %}
+            <div class="add-dodo-form">
+                <label for="id_name">Dodo:</label>
+                {{ form.dodo }}
+            </div>
+            <div class="add-update-form">
+                <label for="id_description" class="description-label">Description:</label>
+                {{ form.description }}
+            </div>
+            <div class="add-button">
+                <input type="submit" value="Save Update">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

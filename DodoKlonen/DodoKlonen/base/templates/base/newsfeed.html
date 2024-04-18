@@ -1,0 +1,60 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="newsfeed">
+    <h2>Dodo Births</h2>
+    <div class="newsfeed-container" style="display: flex;">
+        {% for dodo in all_dodos %}
+        <div class="dodo-box">
+            <div class="dodo-birth">
+                <p><a href="{% url 'dodo_details' dodo %}">{{ dodo }}</a></p>
+            </div>
+            <div class="dodo-image">
+                <img src="{% static "base/img/d.png" %}" alt="logo">
+            </div>
+            <div class="name">
+                <p><strong></strong> {{ dodo.name }}</p>
+            </div>
+            <div class="birth">
+                <p><strong></strong> {{ dodo.date_of_birth|date:"M. d, Y" }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <p>No dodo births found.</p>
+        {% endfor %}
+    </div>
+    
+    <h2>Dodo Updates</h2>
+    <div class="newsfeed-container">
+        {% for dodo, updates in updates_by_dodo.items %}
+        <div class="row">
+            <div class="dodo-container">
+                <h3><a href="{% url 'dodo_details' dodo %}">{{ dodo }}</a></h3>
+                {% for update in updates %}
+                <div class="newsfeed-update-box">
+                    <div class="dodo-img">
+                        <img src="{% static "base/img/d.png" %}" alt="logo">
+                    </div>
+                    <div class="Dodo-Update-Title">
+                        <p>Dodo Update</p>
+                    </div>
+                    <div class="User">
+                        <p>{{ update.user.username }}</p>
+                    </div>
+                    <div class="description">
+                        <p>{{ update.description }}</p>
+                    </div>
+                    <div class="d">
+                        <p>{{ update.date|date:"H:i M. d, Y " }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% empty %}
+        <p>No dodo updates found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

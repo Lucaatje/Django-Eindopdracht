@@ -1,0 +1,42 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="add-dodo-container">
+    <div class="add-dodo-box">
+        <div class="Title">
+            <p>Add Dodo Update</p>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <strong>{{ field|title }}</strong>: {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="POST" class="add-update-form">
+            {% csrf_token %}
+            {{ form.dodo.as_hidden }}
+            <div class="add-dodo-form">
+                <label for="id_name">Dodo:</label>
+                {{ form.dodo }}
+            </div>
+            <div class="add-update-form">
+                <label for="id_description" class="description-label">Description:</label>
+                {{ form.description }}
+            </div>
+            <div class="add-button">
+                <input type="submit" value="Add Update">
+            </div>
+        </form>        
+    </div>
+</div>
+{% endblock content %}

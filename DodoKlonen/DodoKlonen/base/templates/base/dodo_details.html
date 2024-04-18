@@ -1,0 +1,68 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+{% load static %}
+<div class="account-box">
+    <div class="Title">
+        <p>Dodo Information</p>
+    </div>
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    <div class="user-info">
+        <p>Dodo Name: {{ dodo.name }}</p>
+        <p>Date of Birth: {{ dodo.date_of_birth }}</p>
+        <p>Status: {% if dodo.alive %} Alive {% else %} Dead {% endif %}</p>
+        <p>Age: {{ age }} Years</p>
+        {% if dodo.dead_approved %}
+        <p>Dead Approved By: {{ dodo.dead_approved_by }}</p>
+        {% endif %}
+    </div>
+    <div class="add-update-2">
+        <button onclick="window.location.href='{% url 'add_update' dodo.name %}'">Add Update</button>
+    </div>
+    <div class="Mark-As-Dead">
+        <form action="{% url 'mark_as_dead' dodo.name %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Mark As Dead</button>
+        </form>
+    </div>
+    {% if user.is_staff %}
+    <div class="delete-all-updates">
+        <form action="{% url 'delete_all_updates' dodo.name %}" method="post">
+            {% csrf_token %}
+            <button type="submit">Delete All Updates</button>
+        </form>
+    </div>
+    {% endif %}
+    
+    <div class="D-Update-Title">
+        <p>Updates of {{ dodo.name }}</p>
+    </div>
+    
+    <div class="updates-container">
+        {% for update in dodo_updates %}
+            <div class="update-box">
+                <div class="dodo-date">
+                    <div class="dodo-img">
+                        <img src="{% static "base/img/d.png" %}" alt="logo">
+                    </div>
+                    <div class="date">
+                        <p>{{ update.date|date:"H:i D d M Y " }}</p>
+                    </div>
+                </div>
+                <div class="User">
+                    <p>{{ update.user.username }}</p>
+                </div>
+                <div class="description">
+                    <p>{{ update.description }}</p>
+                </div>
+            </div>
+        {% empty %}
+        <p>No dodo updates found.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

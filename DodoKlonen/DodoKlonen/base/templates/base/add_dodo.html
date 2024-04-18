@@ -1,0 +1,35 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="add-dodo-container">
+    <div class="add-dodo-box">
+        <div class="Title">
+            <p>Add Dodo</p>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <strong>{{ field|title }}</strong>: {{ error }}<br>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+        <form method="POST" class="add-dodo-form">
+            {% csrf_token %}
+            <div class="add-dodo-form">
+                <label for="id_name">Name:</label>
+                {{ form.name }}
+            </div>
+            <div class="add-dodo-form">
+                <label for="id_date_of_birth">Date of birth:</label>
+                {{ form.date_of_birth }}
+                <p class="hint">• Format: YYYY-MM-DD</p>
+            </div>
+            <div class="add-button">
+                <input type="submit" value="Add Dodo">
+            </div>
+        </form>        
+    </div>
+</div>
+{% endblock content %}

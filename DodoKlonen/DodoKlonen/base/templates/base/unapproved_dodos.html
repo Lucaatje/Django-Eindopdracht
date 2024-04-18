@@ -1,0 +1,25 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+<div class="unapproved-dodos-Title">
+    <h2>Unapproved Dodos</h2>
+</div>
+<div class="unapproved-dodos-container">
+    {% for dodo in unapproved_dodos %}
+    <div class="dodo-box">
+        <p>{{ dodo.name }}</p>
+        <div class="button-container">
+            <form action="{% url 'approve_dodo' dodo.name %}" method="post" class="approve-dodo-button">
+                {% csrf_token %}
+                <button type="submit">Approve</button>
+            </form>
+            <form action="{% url 'reject_dodo' dodo.name %}" method="post" class="reject-dodo-button">
+                {% csrf_token %}
+                <button type="submit">Reject</button>
+            </form>
+        </div>
+    </div>
+    
+    {% endfor %}
+</div>
+{% endblock %}
